@@ -1,5 +1,8 @@
 package net.kalish.hologram.service;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
@@ -32,10 +35,14 @@ public class TcpClientConnector implements Runnable {
                 Socket s = sock.accept();
 
                 InputStream is = s.getInputStream();
-                ObjectInputStream ois = new ObjectInputStream(is);
+                //ObjectInputStream ois = new ObjectInputStream(is);
+                Kryo k = new Kryo();
+                Input i = new Input(is);
+
 
                 while(isRunning) {
-                    Transaction t = (Transaction) ois.readObject();
+                    Transaction t = k.readObject(i, Transaction.class);
+                    //Transaction t = (Transaction) ois.readObject();
                     t.id = log.getNextId();
                     //System.out.println("Received " + t);
                     log.append(t);

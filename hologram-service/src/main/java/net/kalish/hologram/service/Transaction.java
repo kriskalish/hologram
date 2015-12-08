@@ -11,6 +11,8 @@ public class Transaction implements Serializable {
     public String key;
     public String value;
 
+    public Transaction() {}
+
     public Transaction(long id, int operation, String key, String value) {
         this.id = id;
         this.operation = operation;
