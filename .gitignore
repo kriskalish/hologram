@@ -1,0 +1,29 @@
+# =========================
+# Scala
+# =========================
+*.class
+*.log
+
+*.class
+*.log
+
+# sbt specific
+.cache/
+.history/
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+classes/
+META-INF/
+
+# Scala-IDE specific
+.idea/
+.scala_dependencies
+.worksheet
+
+checkpoint/
+*.jar
