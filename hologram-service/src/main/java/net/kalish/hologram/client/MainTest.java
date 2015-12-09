@@ -4,6 +4,8 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
 import net.kalish.hologram.service.OperationType;
 import net.kalish.hologram.service.Transaction;
+import org.msgpack.MessagePack;
+import org.msgpack.packer.Packer;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -18,10 +20,11 @@ public class MainTest {
         TcpConnector tc = new TcpConnector("127.0.0.1", 8989);
 
         try {
-            //TestConnector();
+            TestConnector(tc);
             //TestQueue();
-            TestKryoSerialization();
+            //TestKryoSerialization();
             //TestKryoArraySerialization();
+            //TestMessagePackSerialization();
 
         } catch (Exception e) {
             System.err.println(e);
@@ -119,5 +122,32 @@ public class MainTest {
         double tps = numTransactions / elapsedTimeSeconds;
 
         System.out.println("Took " + elapsedTimeSeconds + " seconds. Which is " + tps + " tps.");
+    }
+
+    public static void TestMessagePackSerialization() throws Exception {
+        int numTransactions = 1000000;
+
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        MessagePack mp = new MessagePack();
+        Packer p = mp.createPacker(os);
+
+
+
+        long startTime = System.nanoTime();
+
+
+        for(int i = 0; i < numTransactions; ++i) {
+            Transaction t = new Transaction(i, OperationType.MapPut, "thisismykey", "thisismyvalue");
+            p.write(t);
+            //mp.write(os, t);
+        }
+
+        long elapsedTime = System.nanoTime() - startTime;
+        double elapsedTimeSeconds = elapsedTime / 1000000000.0;
+
+        double tps = numTransactions / elapsedTimeSeconds;
+
+        System.out.println("Took " + elapsedTimeSeconds + " seconds. Which is " + tps + " tps.");
+
     }
 }

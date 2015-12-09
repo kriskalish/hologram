@@ -6,9 +6,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Here's where the master service starts execution.
+ * Created by Kris on 12/8/2015.
  */
-public class MasterServiceMain {
+public class SlaveServiceMain {
     public static void main(String args[]) {
         ExecutorService s = Executors.newFixedThreadPool(5);
 

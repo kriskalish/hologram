@@ -11,13 +11,14 @@ public class TransactionLog {
     public static int logCapacity = 1000000; // 1 million
 
     protected AtomicLong currentId;
-    protected BlockingQueue<Transaction> log;
+    protected ArrayBlockingQueue<Transaction> log;
     protected String name;
 
     public TransactionLog() {
         name = "test";
         currentId = new AtomicLong(0);
         log = new ArrayBlockingQueue<Transaction>(logCapacity);
+
     }
 
     public void append(Transaction t) throws InterruptedException {

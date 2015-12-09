@@ -1,10 +1,13 @@
 package net.kalish.hologram.service;
 
+import org.msgpack.annotation.Message;
+
 import java.io.Serializable;
 
 /**
  * This is a skeleton for a transaction object
  */
+@Message
 public class Transaction implements Serializable {
     public long id;
     public int operation;
