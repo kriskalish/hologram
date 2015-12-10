@@ -1,23 +1,19 @@
 package net.kalish.hologram.service.connector;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
 import it.unimi.dsi.fastutil.io.FastBufferedInputStream;
-import net.kalish.hologram.service.Transaction;
-import net.kalish.hologram.service.TransactionLog;
+import net.kalish.hologram.service.model.Transaction;
+import net.kalish.hologram.service.model.TransactionLog;
 import org.msgpack.MessagePack;
 import org.msgpack.unpacker.Unpacker;
 
-import java.io.BufferedInputStream;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
  *
  */
-public class TcpClientConnector implements Runnable {
+public class TcpReceiverConnector implements Runnable {
 
     private int mainPort = 8989; // todo need some configuration
     private ServerSocket sock;
@@ -26,8 +22,9 @@ public class TcpClientConnector implements Runnable {
     private volatile boolean isRunning = true;
 
 
-    public TcpClientConnector(TransactionLog log) {
+    public TcpReceiverConnector(TransactionLog log, int port) {
         this.log = log;
+        this.mainPort = port;
     }
 
     public void run() {

@@ -1,4 +1,4 @@
-package net.kalish.hologram.service;
+package net.kalish.hologram.service.model;
 
 import org.msgpack.annotation.Message;
 

@@ -1,16 +1,11 @@
 package net.kalish.hologram.client;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Output;
 import it.unimi.dsi.fastutil.io.FastBufferedOutputStream;
-import net.kalish.hologram.service.OperationType;
-import net.kalish.hologram.service.Transaction;
+import net.kalish.hologram.service.model.OperationType;
+import net.kalish.hologram.service.model.Transaction;
 import org.msgpack.MessagePack;
 import org.msgpack.packer.Packer;
 
-import java.io.BufferedOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 
 

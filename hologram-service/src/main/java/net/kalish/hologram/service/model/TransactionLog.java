@@ -1,7 +1,8 @@
-package net.kalish.hologram.service;
+package net.kalish.hologram.service.model;
+
+import net.kalish.hologram.service.model.Transaction;
 
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -23,6 +24,10 @@ public class TransactionLog {
 
     public void append(Transaction t) throws InterruptedException {
         log.put(t);
+    }
+
+    public Transaction take() throws InterruptedException {
+        return log.take();
     }
 
     public long getNextId() {

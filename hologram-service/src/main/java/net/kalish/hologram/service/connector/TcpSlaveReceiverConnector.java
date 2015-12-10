@@ -1,31 +1,30 @@
 package net.kalish.hologram.service.connector;
 
-import net.kalish.hologram.service.Transaction;
-import net.kalish.hologram.service.TransactionLog;
+import it.unimi.dsi.fastutil.io.FastBufferedInputStream;
+import net.kalish.hologram.service.model.Transaction;
+import net.kalish.hologram.service.model.TransactionLog;
 import org.msgpack.MessagePack;
 import org.msgpack.unpacker.Unpacker;
 
-import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 /**
  *
  */
-public class TcpMasterToSlaveConnector {
-    private int masterToSlavePort = 8990; // todo need some configuration
-    private ServerSocket sock;
+public class TcpSlaveReceiverConnector implements Runnable {
 
-    private BlockingQueue<Transaction> queue;
+    private int mainPort;
+    private Socket sock;
+    private TransactionLog log;
 
     private volatile boolean isRunning = true;
 
 
-    public TcpMasterToSlaveConnector() {
-        queue = new ArrayBlockingQueue<Transaction>(1024*64);
+    public TcpSlaveReceiverConnector(TransactionLog log, int port) {
+        this.log = log;
+        this.mainPort = port;
     }
 
     public void run() {
@@ -33,14 +32,15 @@ public class TcpMasterToSlaveConnector {
             try {
                 if (sock == null || !sock.isBound()) {
                     System.out.println("Creating new server socket...");
-                    sock = new ServerSocket(masterToSlavePort);
+                    sock = new Socket("127.0.0.1", mainPort);
                 }
 
-                Socket s = sock.accept();
 
-                InputStream is = new BufferedInputStream(s.getInputStream());
-                MessagePack mp = new MessagePack();
-                Unpacker up = mp.createUnpacker(is);
+                InputStream is = new FastBufferedInputStream(sock.getInputStream());
+                //ObjectInputStream ois = new ObjectInputStream(is);
+                //Kryo k = new Kryo(); Input i = new Input(is);
+
+                MessagePack mp = new MessagePack(); Unpacker up = mp.createUnpacker(is);
 
 
                 while(isRunning) {
@@ -48,9 +48,9 @@ public class TcpMasterToSlaveConnector {
                     Transaction t = up.read(Transaction.class);
                     //Transaction t = k.readObject(i, Transaction.class);
                     //Transaction t = (Transaction) ois.readObject();
-                    //t.id = log.getNextId();
+                    t.id = log.getNextId();
                     //System.out.println("Received " + t);
-                    //log.append(t);
+                    log.append(t);
 
 
                 }

@@ -2,8 +2,9 @@ package net.kalish.hologram.client;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
-import net.kalish.hologram.service.OperationType;
-import net.kalish.hologram.service.Transaction;
+import net.kalish.hologram.service.LazyConfig;
+import net.kalish.hologram.service.model.OperationType;
+import net.kalish.hologram.service.model.Transaction;
 import org.msgpack.MessagePack;
 import org.msgpack.packer.Packer;
 
@@ -17,7 +18,7 @@ import java.util.concurrent.BlockingQueue;
  */
 public class MainTest {
     public static void main(String args[]) {
-        TcpConnector tc = new TcpConnector("127.0.0.1", 8989);
+        TcpConnector tc = new TcpConnector("127.0.0.1", LazyConfig.DEFAULT_PORT);
 
         try {
             TestConnector(tc);

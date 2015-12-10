@@ -1,4 +1,4 @@
-package net.kalish.hologram.service;
+package net.kalish.hologram.service.model;
 
 // todo: lazy man's enum
 public class OperationType {

@@ -1,6 +1,8 @@
 package net.kalish.hologram.service;
 
-import net.kalish.hologram.service.connector.TcpClientConnector;
+import net.kalish.hologram.service.connector.TcpReceiverConnector;
+import net.kalish.hologram.service.connector.TcpSlaveReceiverConnector;
+import net.kalish.hologram.service.model.TransactionLog;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,7 +15,8 @@ public class SlaveServiceMain {
         ExecutorService s = Executors.newFixedThreadPool(5);
 
         TransactionLog log = new TransactionLog();
-        TcpClientConnector clientConnector = new TcpClientConnector(log);
+        TcpSlaveReceiverConnector clientConnector = new TcpSlaveReceiverConnector(log, LazyConfig.MASTER_TO_SLAVE_PORT);
+
 
         s.execute(clientConnector);
     }
