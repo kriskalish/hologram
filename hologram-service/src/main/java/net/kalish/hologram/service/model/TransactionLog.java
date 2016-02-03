@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Scaffold for a transaction log of a single collection
+ * https://github.com/LMAX-Exchange/disruptor/issues/30
  */
 public class TransactionLog {
     public static int logCapacity = 1000000; // 1 million
@@ -24,10 +25,15 @@ public class TransactionLog {
 
     public void append(Transaction t) throws InterruptedException {
         log.put(t);
+        //log.take();
     }
 
     public Transaction take() throws InterruptedException {
         return log.take();
+    }
+
+    public void clear() {
+        log.clear();
     }
 
     public long getNextId() {

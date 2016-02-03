@@ -4,6 +4,7 @@ import net.kalish.hologram.service.connector.FanOut;
 import net.kalish.hologram.service.connector.TcpReceiverConnector;
 import net.kalish.hologram.service.connector.TcpSenderConnector;
 import net.kalish.hologram.service.model.TransactionLog;
+import net.kalish.hologram.service.model.TransactionLog2;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,24 +22,19 @@ import java.util.concurrent.Executors;
  * -make slave ask for table on connection
  * -consider using nio sockets
  */
-public class MasterServiceMain {
+public class MasterServiceMain2 {
     public static void main(String args[]) {
         ExecutorService s = Executors.newFixedThreadPool(5);
 
-        TransactionLog log = new TransactionLog();
+        TransactionLog2 log = new TransactionLog2();
         TcpReceiverConnector clientConnector = new TcpReceiverConnector(log, LazyConfig.DEFAULT_PORT);
 
-        FanOut fanOut = new FanOut(log);
-        TcpSenderConnector firstSlaveSender = new TcpSenderConnector(LazyConfig.MASTER_TO_SLAVE_PORT);
-        fanOut.addSender(firstSlaveSender);
-
-        Drain d = new Drain(log);
-        s.execute(d);
+        log.addListener(new TransactionLog2.DynamicHandler());
 
 
         s.execute(clientConnector);
-        s.execute(firstSlaveSender);
-        s.execute(fanOut);
+        //s.execute(firstSlaveSender);
+        //s.execute(fanOut);
 
     }
 }

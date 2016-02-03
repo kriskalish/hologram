@@ -29,6 +29,15 @@
             <artifactId>fastutil</artifactId>
             <version>7.0.8</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>3.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe</groupId>
+            <artifactId>config</artifactId>
+            <version>1.3.0</version>
+        </dependency>
     </dependencies>
 </project>

@@ -20,5 +20,7 @@
     <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.18.1-GA" level="project" />
     <orderEntry type="library" name="Maven: it.unimi.dsi:fastutil:7.0.8" level="project" />
+    <orderEntry type="library" name="Maven: com.lmax:disruptor:3.3.2" level="project" />
+    <orderEntry type="library" name="Maven: com.typesafe:config:1.3.0" level="project" />
   </component>
 </module>

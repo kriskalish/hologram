@@ -34,6 +34,16 @@ public class MainTest {
     }
 
 
+    /**
+     * With array blocking queue, 1 master and 1 slave we hit:
+     * Took 1.594001907 seconds. Which is 627351.8216060704 tps.
+     *
+     * With disruptor, 1 master and 0 slaves we hit:
+     * Took 1.285884294 seconds. Which is 777674.946856455 tps.
+     *
+     * @param tc
+     * @throws Exception
+     */
     public static void TestConnector(TcpConnector tc) throws Exception {
         int numTransactions = 1000000;
         long startTime = System.nanoTime();

@@ -1,5 +1,6 @@
 package net.kalish.hologram.service.model;
 
+import com.lmax.disruptor.EventFactory;
 import org.msgpack.annotation.Message;
 
 import java.io.Serializable;
