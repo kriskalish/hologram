@@ -43,7 +43,6 @@ public class TcpReceiverConnector implements Runnable {
 
                 MessagePack mp = new MessagePack(); Unpacker up = mp.createUnpacker(is);
 
-
                 while(isRunning) {
 
                     Transaction t = up.read(Transaction.class);

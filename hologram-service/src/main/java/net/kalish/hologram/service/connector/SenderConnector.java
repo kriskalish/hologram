@@ -1,8 +1,8 @@
 package net.kalish.hologram.service.connector;
 
 
-import net.kalish.hologram.service.model.CrossServiceMessage;
+import net.kalish.hologram.service.model.ServiceMessage;
 
 public interface SenderConnector {
-    void pushToSlave(CrossServiceMessage m) throws InterruptedException;
+    void pushToSlave(ServiceMessage m) throws InterruptedException;
 }

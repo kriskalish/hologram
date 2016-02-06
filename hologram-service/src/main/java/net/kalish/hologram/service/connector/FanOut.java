@@ -1,10 +1,9 @@
 package net.kalish.hologram.service.connector;
 
-import net.kalish.hologram.service.model.CrossServiceMessage;
+import net.kalish.hologram.service.model.ServiceMessage;
 import net.kalish.hologram.service.model.Transaction;
 import net.kalish.hologram.service.model.TransactionLog;
 import org.msgpack.MessagePack;
-import org.msgpack.packer.Packer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +37,7 @@ public class FanOut implements Runnable {
                 Transaction t = log.take();
                 byte[] bytes = mp.write(t);
 
-                CrossServiceMessage csm = new CrossServiceMessage(t.id, bytes);
+                ServiceMessage csm = new ServiceMessage(t.id, bytes);
 
                 for (SenderConnector sc : senders) {
                     sc.pushToSlave(csm);
