@@ -1,6 +1,7 @@
 package net.kalish.hologram.service.util;
 
 import net.kalish.hologram.service.model.ServiceMessage;
+import net.kalish.hologram.service.model.TransactionLog2;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -9,8 +10,7 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  *
@@ -20,10 +20,16 @@ public class NioServer implements Runnable {
 
     private Selector selector;
     private ServerSocketChannel ssc;
+    private List<HListener> listeners;
 
+    public NioServer() {
+        // todo: probably need to replace this with copy on write so the iterator in handleMessageReceived works
+        listeners = Collections.synchronizedList(new ArrayList<>());
+    }
 
-
-
+    public void addListener(HListener l) {
+        listeners.add(l);
+    }
 
     public void init(InetSocketAddress address) throws IOException {
         selector = Selector.open();
@@ -68,7 +74,10 @@ public class NioServer implements Runnable {
 
             if ((ops & SelectionKey.OP_READ) == SelectionKey.OP_READ) {
                 ServiceMessage msg = (ServiceMessage) conn.readObject();
+                handleMessageReceived(conn, msg);
             }
+
+
             /*
             if ((ops & SelectionKey.OP_WRITE) == SelectionKey.OP_WRITE) {
 
@@ -101,6 +110,12 @@ public class NioServer implements Runnable {
         } catch (IOException ex) {
             connection.close();
             if (DEBUG) System.out.println("Unable to accept TCP connection.");
+        }
+    }
+
+    private void handleMessageReceived(HConnection conn, ServiceMessage msg) {
+        for(HListener l : listeners) {
+            l.handleMessage(msg);
         }
     }
 }

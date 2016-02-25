@@ -32,7 +32,7 @@ public class NioTcpConnection implements HConnection {
     }
 
     @Override
-    public SelectionKey accept (Selector selector, SocketChannel socketChannel) throws IOException {
+    public SelectionKey accept(Selector selector, SocketChannel socketChannel) throws IOException {
         writeBuffer.clear();
         readBuffer.clear();
         readBuffer.flip();
@@ -76,8 +76,7 @@ public class NioTcpConnection implements HConnection {
             selectionKey.attach(this);
 
             if (DEBUG) {
-                System.out.println("Port " + socketChannel.socket().getLocalPort() + "/TCP connected to: "
-                        + socketChannel.socket().getRemoteSocketAddress());
+                System.out.println("Port " + socketChannel.socket().getLocalPort() + "/TCP connected to: " + socketChannel.socket().getRemoteSocketAddress());
             }
 
         } catch (IOException ex) {

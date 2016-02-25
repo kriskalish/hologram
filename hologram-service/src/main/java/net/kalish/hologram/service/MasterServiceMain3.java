@@ -3,6 +3,7 @@ package net.kalish.hologram.service;
 import net.kalish.hologram.service.connector.TcpReceiverConnector;
 import net.kalish.hologram.service.model.TransactionLog2;
 import net.kalish.hologram.service.util.NioServer;
+import net.kalish.hologram.service.util.ServerToLog;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.ExecutorService;
@@ -26,7 +27,13 @@ public class MasterServiceMain3 {
         try {
             ExecutorService s = Executors.newFixedThreadPool(5);
 
+            TransactionLog2 log = new TransactionLog2();
+            ServerToLog stl = new ServerToLog(log);
+
             NioServer server = new NioServer();
+
+
+            server.addListener(stl);
             server.init(new InetSocketAddress(8989));
 
             s.execute(server);

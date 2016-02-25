@@ -39,9 +39,10 @@ public class TcpConnector {
         }
 
 
-
+        p.write(t);
         //oos.writeObject(t);
         //k.writeObject(o, t);
+        p.
         p.write(t);
     }
 
